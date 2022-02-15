@@ -161,7 +161,7 @@ schemes:
 
     # Normal colors
     normal:
-      black:   '0x131a25'
+      black:   '0x131a23'
       red:     '0xEA6C73'
       green:   '0x91B362'
       yellow:  '0xF9AF4F'
