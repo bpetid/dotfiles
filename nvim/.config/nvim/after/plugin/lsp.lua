@@ -3,8 +3,8 @@ local lsp = require("lsp-zero")
 lsp.preset("recommended")
 
 lsp.ensure_installed({
---     'sumneko_lua',
---     'rust_analyzer',
+    --     'sumneko_lua',
+    --     'rust_analyzer',
 })
 
 local cmp = require('cmp')
@@ -35,19 +35,23 @@ lsp.set_preferences({
     }
 })
 
-vim.diagnostic.config({
-    virtual_text = true,
-})
 
 -- lsp.on_attach(function(client, bufnr)
---     local opts = {buffer = bufnr, remap = false}
--- 
---     if client.name == "eslint" then
---         vim.cmd [[ LspStop eslint ]]
---         return
---     end
--- end)
+    --     local opts = {buffer = bufnr, remap = false}
+    -- 
+    --     if client.name == "eslint" then
+    --         vim.cmd [[ LspStop eslint ]]
+    --         return
+    --     end
+    -- end)
 
--- require('lspconfig').arduino_language_server.setup{}
+    -- require('lspconfig').arduino_language_server.setup{}
+    --
+    lsp.nvim_workspace()
 
     lsp.setup() 
+
+
+    vim.diagnostic.config({
+        virtual_text = true,
+    })
