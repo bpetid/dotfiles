@@ -1,3 +1,3 @@
 require("petid.remap")
-require("petid.packer")
+require("petid.lazy")
 require("petid.set")
