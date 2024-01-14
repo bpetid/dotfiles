@@ -30,8 +30,29 @@ return {
 
             handlers = {
                 function (server_name)
-                    require("lspconfig")[server_name].setup {}
+                    local cmp_lsp = require("cmp_nvim_lsp")
+                    local capabilities = vim.tbl_deep_extend(
+                        "force",
+                        {},
+                        vim.lsp.protocol.make_client_capabilities(),
+                        cmp_lsp.default_capabilities())
+
+                    require("lspconfig")[server_name].setup {
+                        capabilities = capabilities
+                    }
                 end,
+                ["lua_ls"] = function ()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.lua_ls.setup {
+                        settings = {
+                            Lua = {
+                                diagnostics = {
+                                    globals = { "vim" }
+                                }
+                            }
+                        }
+                    }
+                end
             }
         })
 
@@ -82,12 +103,12 @@ return {
                 })
         })
 
-        -- Set up lspconfig.
-        local capabilities = require('cmp_nvim_lsp').default_capabilities()
-        -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-        require('lspconfig')["clangd"].setup {
-            capabilities = capabilities
-        }
+--         -- Set up lspconfig.
+--         local capabilities = require('cmp_nvim_lsp').default_capabilities()
+--         -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+--         require('lspconfig')["clangd"].setup {
+--             capabilities = capabilities
+--         }
 
         vim.diagnostic.config({
             update_on_insert = true,
