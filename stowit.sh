@@ -18,4 +18,6 @@ if [ $# = 1 ]; then
 	stow -$arg -v nvim
 	stow -$arg -v pipewire
 	stow -$arg -v wallpapers -t /usr/share/wallpapers
+	stow -$arg -v waybar
+	stow -$arg -v hyprland
 fi
