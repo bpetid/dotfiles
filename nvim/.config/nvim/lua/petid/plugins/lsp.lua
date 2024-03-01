@@ -24,7 +24,6 @@ return {
                 "bashls",
                 "cmake",
                 "jsonls",
-                "pylyzer",
                 "yamlls",
             },
 
