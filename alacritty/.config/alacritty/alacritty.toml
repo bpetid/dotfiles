@@ -1,0 +1,44 @@
+import = [
+    "~/.config/alacritty/themes/themes/rose-pine.toml"
+]
+
+[window]
+padding.x = 8
+padding.y = 5
+dynamic_padding = true
+
+startup_mode = "Maximized"
+
+decorations = "None"
+decorations_theme_variant = "None"
+
+[font]
+size=14
+
+[font.bold]
+family = "IosevkaSS08"
+style = "Heavy Extended"
+
+[font.bold_italic]
+family = "IosevkaSS08"
+style = "Heavy Extended Italic"
+
+[font.italic]
+family = "IosevkaSS08"
+style = "Medium Extended Italic"
+
+[font.normal]
+family = "IosevkaSS08"
+style = "Medium Extended"
+
+[terminal]
+osc52 = "CopyPaste"
+
+[mouse]
+hide_when_typing = true
+
+[cursor]
+style.shape = "Block"
+style.blinking = "On"
+vi_mode_style.shape = "Block"
+vi_mode_style.blinking = "Off"
