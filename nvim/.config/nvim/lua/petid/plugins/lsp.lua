@@ -10,9 +10,24 @@ return {
 		"hrsh7th/nvim-cmp",
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
+		"j-hui/fidget.nvim",
 	},
 
 	config = function()
+		local cmp = require("cmp")
+		local cmp_lsp = require("cmp_nvim_lsp")
+		local capabilities = vim.tbl_deep_extend(
+			"force",
+			{},
+			vim.lsp.protocol.make_client_capabilities(),
+			cmp_lsp.default_capabilities()
+		)
+		local on_attach = function(client, bufnr)
+			if client.server_capabilities.inlayHintProvider then
+				vim.lsp.inlay_hint.enable(bufnr, true)
+			end
+		end
+		require("fidget").setup({})
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
@@ -25,24 +40,21 @@ return {
 				"cmake",
 				"jsonls",
 				"yamlls",
+				"ruff_lsp",
+				"pyright"
 			},
-
 			handlers = {
-				function (server_name)
-					local cmp_lsp = require("cmp_nvim_lsp")
-					local capabilities = vim.tbl_deep_extend(
-						"force",
-						{},
-						vim.lsp.protocol.make_client_capabilities(),
-						cmp_lsp.default_capabilities())
-
+				function(server_name)
 					require("lspconfig")[server_name].setup {
-						capabilities = capabilities
+						capabilities = capabilities,
+						on_attach = on_attach
 					}
 				end,
-				["lua_ls"] = function ()
+				["lua_ls"] = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.lua_ls.setup {
+						capabilities = capabilities,
+						on_attach = on_attach,
 						settings = {
 							Lua = {
 								diagnostics = {
@@ -51,13 +63,31 @@ return {
 							}
 						}
 					}
-				end
+				end,
+				["pyright"] = function()
+					local lspconfig = require("lspconfig")
+					lspconfig.pyright.setup {
+						capabilities = {
+							textDocument = {
+								publishDiagnostics = {
+									tagSupport = {
+										valueSet = { 2 }, -- prevent duplicates with ruff_lsp https://github.com/microsoft/pyright/issues/4652
+									},
+								},
+							},
+						},
+						on_attach = on_attach,
+						settings = {
+							pyright = {
+								disableOrganizerImports = true,
+							},
+						}
+					}
+				end,
 			}
 		})
 
 		-- Set up nvim-cmp.
-		local cmp = require("cmp")
-
 		cmp.setup({
 			snippet = {
 				-- REQUIRED - you must specify a snippet engine
@@ -80,8 +110,8 @@ return {
 				{ name = 'nvim_lsp' },
 				{ name = 'luasnip' }, -- For luasnip users.
 			}, {
-					{ name = 'buffer' },
-				})
+				{ name = 'buffer' },
+			})
 		})
 
 		-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
@@ -95,11 +125,10 @@ return {
 		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 		cmp.setup.cmdline(':', {
 			mapping = cmp.mapping.preset.cmdline(),
-			sources = cmp.config.sources({
-				{ name = 'path' }
-			}, {
-					{ name = 'cmdline' }
-				})
+			sources = cmp.config.sources(
+				{ { name = 'path' } },
+				{ { name = 'cmdline' } }
+			)
 		})
 
 		--         -- Set up lspconfig.
@@ -111,6 +140,12 @@ return {
 
 		vim.diagnostic.config({
 			update_on_insert = true,
+			underline = true,
+			virtual_text = {
+				spacing = 4,
+				source = "if_many",
+				prefix = "●",
+			},
 			float = {
 				focusable = false,
 				style = "minimal",
@@ -118,6 +153,9 @@ return {
 				source = "always",
 				header = "",
 				prefix = "",
+			},
+			inlay_hints = {
+				enabled = true,
 			},
 		})
 	end

@@ -25,7 +25,9 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.autochdir = true
+vim.opt.autochdir = false
 
 vim.opt.listchars = "eol:¬,tab:▸ ,trail:~,extends:>,precedes:<"
 vim.opt.list = true
+
+vim.g.python3_host_prog = "/home/petid/.cache/pypoetry/virtualenvs/neovim-py3-1Bn8z-Kw-py3.11/bin/python"

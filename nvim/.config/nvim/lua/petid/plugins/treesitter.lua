@@ -7,10 +7,17 @@ return {
 		local configs = require("nvim-treesitter.configs")
 
 		configs.setup({
-			ensure_installed = { "c", "lua", "vim", "vimdoc", "cpp", "c_sharp", "python", "perl", "ninja", "markdown_inline", "make", "gitignore", "gitcommit", "bash", "xml" },
+			ensure_installed = { "c", "lua", "vim", "vimdoc", "cpp", "c_sharp", "python", "perl", "ninja", "markdown", "markdown_inline", "make", "gitignore", "gitcommit", "bash", "xml" },
 			sync_install = true,
-			highlight = { enable = true },
-			indent = { enable = true },
+			auto_install = true,
+
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = { "markdown" },
+			},
+			indent = {
+				enable = true
+			},
 			incremental_selection = {
 				enable = true,
 				keymaps = {
@@ -21,5 +28,14 @@ return {
 				},
 			},
 		})
+
+		local treesitter_parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+		treesitter_parser_config.templ = {
+			install_info = {
+				url = "https://github.com/vrischmann/tree-sitter-templ.git",
+				files = {"src/parser.c", "src/scanner.c"},
+				branch = "master",
+			},
+		}
 	end
 }
