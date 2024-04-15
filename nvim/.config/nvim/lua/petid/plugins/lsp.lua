@@ -40,8 +40,9 @@ return {
 				"cmake",
 				"jsonls",
 				"yamlls",
-				"ruff_lsp",
-				"pyright"
+				-- "ruff_lsp",
+				-- "pyright"
+				-- !install manually: python-lsp-server pylsp-mypy, python-lsp-ruff
 			},
 			handlers = {
 				function(server_name)
@@ -50,6 +51,30 @@ return {
 						on_attach = on_attach
 					}
 				end,
+				require('lspconfig').pylsp.setup{
+					settings = {
+						pylsp = {
+							plugins = {
+								ruff = {
+									enabled = true,  -- Enable the plugin
+									formatEnabled = true,
+									extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
+									format = { "I" },
+									severities = { ["D212"] = "I" },
+									unsafeFixes = true,
+									-- Rules that are ignored when a pyproject.toml or ruff.toml is present:
+									lineLength = 88,  -- Line length to pass to ruff checking and formatting
+									select = { "F" },  -- Rules to be enabled by ruff
+									ignore = {},  -- Rules to be ignored by ruff
+									preview = false,  -- Whether to enable the preview style linting and formatting.
+									targetVersion = "py310",  -- The minimum python version to target (applies for both linting and formatting).
+								},
+							}
+						}
+					}
+
+
+				},
 				["lua_ls"] = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.lua_ls.setup {
@@ -61,26 +86,6 @@ return {
 									globals = { "vim" }
 								}
 							}
-						}
-					}
-				end,
-				["pyright"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.pyright.setup {
-						capabilities = {
-							textDocument = {
-								publishDiagnostics = {
-									tagSupport = {
-										valueSet = { 2 }, -- prevent duplicates with ruff_lsp https://github.com/microsoft/pyright/issues/4652
-									},
-								},
-							},
-						},
-						on_attach = on_attach,
-						settings = {
-							pyright = {
-								disableOrganizerImports = true,
-							},
 						}
 					}
 				end,
@@ -97,7 +102,7 @@ return {
 			},
 			window = {
 				-- completion = cmp.config.window.bordered(),
-				-- documentation = cmp.config.window.bordered(),
+				documentation = cmp.config.window.bordered(),
 			},
 			mapping = cmp.mapping.preset.insert({
 				['<C-b>'] = cmp.mapping.scroll_docs(-4),
@@ -130,13 +135,6 @@ return {
 				{ { name = 'cmdline' } }
 			)
 		})
-
-		--         -- Set up lspconfig.
-		--         local capabilities = require('cmp_nvim_lsp').default_capabilities()
-		--         -- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-		--         require('lspconfig')["clangd"].setup {
-		--             capabilities = capabilities
-		--         }
 
 		vim.diagnostic.config({
 			update_on_insert = true,
