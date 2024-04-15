@@ -51,23 +51,23 @@ return {
 						on_attach = on_attach
 					}
 				end,
-				require('lspconfig').pylsp.setup{
+				require('lspconfig').pylsp.setup {
 					settings = {
 						pylsp = {
 							plugins = {
 								ruff = {
-									enabled = true,  -- Enable the plugin
+									enabled = true, -- Enable the plugin
 									formatEnabled = true,
 									extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
 									format = { "I" },
 									severities = { ["D212"] = "I" },
 									unsafeFixes = true,
 									-- Rules that are ignored when a pyproject.toml or ruff.toml is present:
-									lineLength = 88,  -- Line length to pass to ruff checking and formatting
-									select = { "F" },  -- Rules to be enabled by ruff
-									ignore = {},  -- Rules to be ignored by ruff
-									preview = false,  -- Whether to enable the preview style linting and formatting.
-									targetVersion = "py310",  -- The minimum python version to target (applies for both linting and formatting).
+									lineLength = 88, -- Line length to pass to ruff checking and formatting
+									select = { "F" }, -- Rules to be enabled by ruff
+									ignore = {}, -- Rules to be ignored by ruff
+									preview = false, -- Whether to enable the preview style linting and formatting.
+									targetVersion = "py310", -- The minimum python version to target (applies for both linting and formatting).
 								},
 							}
 						}
@@ -92,29 +92,26 @@ return {
 			}
 		})
 
+		local cmp_select = { behavior = cmp.SelectBehavior.Select }
 		-- Set up nvim-cmp.
 		cmp.setup({
 			snippet = {
-				-- REQUIRED - you must specify a snippet engine
 				expand = function(args)
 					require('luasnip').lsp_expand(args.body)
 				end,
 			},
-			window = {
-				-- completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
-			},
 			mapping = cmp.mapping.preset.insert({
+				['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+				['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+				['<C-y>'] = cmp.mapping.confirm({ select = true }),
+				['<C-Space>'] = cmp.mapping.complete(),
 				['<C-b>'] = cmp.mapping.scroll_docs(-4),
 				['<C-f>'] = cmp.mapping.scroll_docs(4),
-				['<C-Space>'] = cmp.mapping.complete(),
 				['<C-e>'] = cmp.mapping.abort(),
-				['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 			}),
 			sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },
-				{ name = 'luasnip' }, -- For luasnip users.
-			}, {
+				{ name = 'luasnip' },
 				{ name = 'buffer' },
 			})
 		})
