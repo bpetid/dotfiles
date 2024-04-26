@@ -32,16 +32,9 @@ return {
 			lsnip.filetype_extend("sh", { "shelldoc" })
 
 			vim.keymap.set({ "i" }, "<c-s>e", function() lsnip.expand() end, { silent = true })
-			vim.keymap.set({ "i", "s" }, "<c-s>l", function() lsnip.jump(1) end, { silent = true })
-			vim.keymap.set({ "i", "s" }, "<c-s>j", function() lsnip.jump(-1) end, { silent = true })
-			vim.keymap.set({ "i", "s" }, "<c-s>h", function()
+			vim.keymap.set({ "i", "s" }, "<c-s>k", function()
 				if lsnip.choice_active() then
 					lsnip.change_choice(1)
-				end
-			end, { silent = true })
-			vim.keymap.set({ "i", "s" }, "<c-s>k", function()
-				if lsnip.expand_or_jumpable() then
-					lsnip.expand_or_jump(1)
 				end
 			end, { silent = true })
 		end,

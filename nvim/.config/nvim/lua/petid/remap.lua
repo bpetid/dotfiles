@@ -6,8 +6,8 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Hightlight yanks",
-	group = vim.api.nvim_create_augroup("highlight yank", {clear = true}),
-	callback = function ()
+	group = vim.api.nvim_create_augroup("highlight yank", { clear = true }),
+	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
