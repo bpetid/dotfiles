@@ -34,18 +34,15 @@ return {
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
-				"clangd",
-				"lua_ls",
-				"rust_analyzer",
-				"arduino_language_server",
 				"asm_lsp",
 				"bashls",
-				"cmake",
+				"clangd",
 				"jsonls",
-				"yamlls",
+				"lua_ls",
+				"pyright",
 				"ruff_lsp",
-				"pyright"
-				-- !install manually: python-lsp-server pylsp-mypy, python-lsp-ruff
+				"rust_analyzer",
+				"yamlls",
 			},
 			handlers = {
 				function(server_name)
