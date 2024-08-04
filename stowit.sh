@@ -9,15 +9,15 @@ else
 fi
 
 if [ $# = 1 ]; then
-	stow -$arg -v documents
 	stow -$arg -v environment
+	stow -$arg -v fish
+	stow -$arg -v hyprland
 	stow -$arg -v kitty
 	stow -$arg -v mangohud
-	stow -$arg -v mpd
 	stow -$arg -v mpv
 	stow -$arg -v nvim
-	stow -$arg -v pipewire
+	stow -$arg -v walker
 	stow -$arg -v wallpapers -t /usr/share/wallpapers
 	stow -$arg -v waybar
-	stow -$arg -v hyprland
+	stow -$arg -v wezterm
 fi
