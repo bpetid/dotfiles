@@ -5,13 +5,20 @@ local config = wezterm.config_builder()
 -- This is where you actually apply your config choices
 config.enable_wayland = false
 
-config.color_scheme = 'rose-pine'
+config.default_prog = { '/usr/bin/fish', '-l' }
 
-config.harfbuzz_features = { 'calt', 'clig', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09' }
-config.font = wezterm.font {
-	family = 'Monaspace Argon',
+config.color_scheme = 'Tokyo Night Moon'
+
+config.harfbuzz_features = { 'calt', 'clig', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08',
+	'ss09' }
+
+config.font = wezterm.font_with_fallback {
+	'Monaspace Argon',
+	'Nerd Font Mono',
+	'Noto Fonts Emoji'
 }
-config.font_size = 20.0
+
+config.font_size = 14.0
 -- config.freetype_load_target = 'Light'
 
 config.use_fancy_tab_bar = false
