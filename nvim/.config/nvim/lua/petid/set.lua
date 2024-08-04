@@ -10,9 +10,14 @@ vim.opt.smarttab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 
+if jit.os == "Linux" then
+	vim.opt.undodir = os.getenv("HOME") .. "/.local/state/nvim/undodir"
+elseif jit.os == "Windows" then
+	vim.opt.undodir = os.getenv("USERPROFILE") .. "\\nvim\\undodir"
+end
+
 vim.opt.swapfile = false
 vim.opt.backup = false
-vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
 vim.opt.hlsearch = true
@@ -35,5 +40,3 @@ vim.opt.inccommand = "split"
 
 vim.opt.listchars = "eol:¬,tab:▸ ,trail:~,extends:>,precedes:<"
 vim.opt.list = true
-
-vim.g.python3_host_prog = "/home/petid/.cache/pypoetry/virtualenvs/neovim-py3-1Bn8z-Kw-py3.11/bin/python"

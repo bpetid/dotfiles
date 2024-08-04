@@ -21,9 +21,9 @@ return {
 			vim.lsp.protocol.make_client_capabilities(),
 			require("cmp_nvim_lsp").default_capabilities()
 		)
-		local on_attach = function(client, bufnr)
+		local on_attach = function(client)
 			if client.server_capabilities.inlayHintProvider then
-				vim.lsp.inlay_hint.enable(bufnr, true)
+				vim.lsp.inlay_hint.enable(true)
 			end
 			if client.name == "ruff_lsp" then
 				-- disable hover provider since I use pyrigh
@@ -51,33 +51,36 @@ return {
 						on_attach = on_attach
 					}
 				end,
-				require('lspconfig').ruff_lsp.setup {
-					settings = {
-						ruff_lsp = {
-							enabled = true, -- Enable the plugin
-							formatEnabled = true,
-							extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
-							format = { "I" },
-							severities = { ["D212"] = "I" },
-							unsafeFixes = true,
-							-- Rules that are ignored when a pyproject.toml or ruff.toml is present:
-							lineLength = 160, -- Line length to pass to ruff checking and formatting
-							select = { "F" }, -- Rules to be enabled by ruff
-							ignore = {}, -- Rules to be ignored by ruff
-							preview = false, -- Whether to enable the preview style linting and formatting.
-							targetVersion = "py39", -- The minimum python version to target (applies for both linting and formatting).
-						},
-					}
-				},
-				["lua_ls"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.lua_ls.setup {
+				["ruff_lsp"] = function()
+					require('lspconfig').ruff_lsp.setup {
 						capabilities = capabilities,
 						on_attach = on_attach,
 						settings = {
+							ruff_lsp = {
+								enabled = true, -- Enable the plugin
+								formatEnabled = true,
+								extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
+								format = { "I" },
+								severities = { ["D212"] = "I" },
+								unsafeFixes = true,
+								-- Rules that are ignored when a pyproject.toml or ruff.toml is present:
+								lineLength = 160, -- Line length to pass to ruff checking and formatting
+								select = { "F" }, -- Rules to be enabled by ruff
+								ignore = {}, -- Rules to be ignored by ruff
+								preview = false, -- Whether to enable the preview style linting and formatting.
+								targetVersion = "py39", -- The minimum python version to target (applies for both linting and formatting).
+							},
+						}
+					}
+				end,
+				["lua_ls"] = function()
+					require("lspconfig").lua_ls.setup {
+					capabilities = capabilities,
+					on_attach = on_attach,
+						settings = {
 							Lua = {
 								diagnostics = {
-									globals = { "vim" }
+									globals = { "vim", "jit" }
 								}
 							}
 						}
@@ -111,16 +114,16 @@ return {
 					else
 						fallback()
 					end
-					end, { 'i', 's' }),
+				end, { 'i', 's' }),
 				['<S-Tab>'] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_prev_item()
 					elseif lsnip.jumpable(-1) then
-					lsnip.jump(-1)
+						lsnip.jump(-1)
 					else
 						fallback()
 					end
-					end, { 'i', 's' }),
+				end, { 'i', 's' }),
 			}),
 			sources = cmp.config.sources({
 				{ name = 'nvim_lsp' },

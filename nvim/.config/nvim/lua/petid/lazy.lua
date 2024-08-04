@@ -14,4 +14,4 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("petid.plugins")
 
 -- set colors here
-vim.cmd("colorscheme rose-pine")
+vim.cmd("colorscheme tokyonight-moon")
