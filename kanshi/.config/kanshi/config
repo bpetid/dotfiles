@@ -1,0 +1,8 @@
+profile DockedHDMI {
+	output eDP-1 disable
+	output HDMI-A-1 mode 2560x1440 position 0,0
+}
+
+profile InternalDisplay {
+	output eDP-1 enable scale 1
+}

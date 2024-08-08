@@ -12,6 +12,7 @@ if [ $# = 1 ]; then
 	stow -$arg -v environment
 	stow -$arg -v fish
 	stow -$arg -v hyprland
+	stow -$arg -v kanshi
 	stow -$arg -v kitty
 	stow -$arg -v mangohud
 	stow -$arg -v mpv
