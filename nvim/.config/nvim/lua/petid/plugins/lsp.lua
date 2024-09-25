@@ -34,15 +34,14 @@ return {
 		require("mason").setup()
 		require("mason-lspconfig").setup({
 			ensure_installed = {
-				"asm_lsp",
 				"bashls",
 				"clangd",
 				"jsonls",
 				"lua_ls",
 				"pyright",
 				"ruff_lsp",
-				"rust_analyzer",
 				"yamlls",
+				"typos_lsp"
 			},
 			handlers = {
 				function(server_name)
@@ -75,14 +74,22 @@ return {
 				end,
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup {
-					capabilities = capabilities,
-					on_attach = on_attach,
+						capabilities = capabilities,
+						on_attach = on_attach,
 						settings = {
 							Lua = {
 								diagnostics = {
 									globals = { "vim", "jit" }
 								}
 							}
+						}
+					}
+				end,
+				["typos_lsp"] = function()
+					require("lspconfig").typos_lsp.setup {
+						capabilities = capabilities,
+						on_attach = on_attach,
+						settings = {
 						}
 					}
 				end,
@@ -102,11 +109,11 @@ return {
 				['<C-Space>'] = cmp.mapping.complete(),
 				['<C-b>'] = cmp.mapping.scroll_docs(-4),
 				['<C-f>'] = cmp.mapping.scroll_docs(4),
-				['<CR>'] = cmp.mapping.confirm {
+				['<C-i>'] = cmp.mapping.confirm {
 					behavior = cmp.ConfirmBehavior.Replace,
 					select = true,
 				},
-				['<Tab>'] = cmp.mapping(function(fallback)
+				['<C-n>'] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_next_item()
 					elseif lsnip.expand_or_jumpable() then
@@ -115,7 +122,7 @@ return {
 						fallback()
 					end
 				end, { 'i', 's' }),
-				['<S-Tab>'] = cmp.mapping(function(fallback)
+				['<C-p>'] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_prev_item()
 					elseif lsnip.jumpable(-1) then
