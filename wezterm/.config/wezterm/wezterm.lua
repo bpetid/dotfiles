@@ -9,10 +9,11 @@ config.default_prog = { '/usr/bin/fish', '-l' }
 
 config.color_scheme = 'Tokyo Night Moon'
 
-config.harfbuzz_features = { 'calt', 'clig', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08',
+config.harfbuzz_features = { 'calt', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08',
 	'ss09' }
 
 config.font = wezterm.font_with_fallback {
+	'MonaspiceAr Nerd Font Mono',
 	'Monaspace Argon',
 	'Nerd Font Mono',
 	'Noto Fonts Emoji'
