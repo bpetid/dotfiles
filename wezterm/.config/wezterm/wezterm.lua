@@ -14,12 +14,11 @@ config.harfbuzz_features = { 'calt', 'liga', 'ss01', 'ss02', 'ss03', 'ss04', 'ss
 
 config.font = wezterm.font_with_fallback {
 	'MonaspiceAr Nerd Font Mono',
-	'Monaspace Argon',
-	'Nerd Font Mono',
+	'Symbols Nerd Font Mono',
 	'Noto Fonts Emoji'
 }
 
-config.font_size = 14.0
+config.font_size = 12.0
 -- config.freetype_load_target = 'Light'
 
 config.use_fancy_tab_bar = false
