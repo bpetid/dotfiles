@@ -1,6 +1,12 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
+local mux = wezterm.mux
+
+wezterm.on("gui-startup", function()
+	local tab, pane, window = mux.spawn_window {}
+	window:gui_window():maximize()
+end)
 
 -- This is where you actually apply your config choices
 config.enable_wayland = false
@@ -43,4 +49,8 @@ config.colors = {
 		}
 	}
 }
+
+config.initial_cols = 160
+config.initial_rows = 48
+
 return config
