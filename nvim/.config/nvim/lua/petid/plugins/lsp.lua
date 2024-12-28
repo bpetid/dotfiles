@@ -25,7 +25,7 @@ return {
 			if client.server_capabilities.inlayHintProvider then
 				vim.lsp.inlay_hint.enable(true)
 			end
-			if client.name == "ruff_lsp" then
+			if client.name == "ruff" then
 				-- disable hover provider since I use pyrigh
 				client.server_capabilities.hoverProvider = false
 			end
@@ -39,7 +39,7 @@ return {
 				"jsonls",
 				"lua_ls",
 				"pyright",
-				"ruff_lsp",
+				"ruff",
 				"yamlls",
 				"typos_lsp"
 			},
@@ -50,12 +50,12 @@ return {
 						on_attach = on_attach
 					}
 				end,
-				["ruff_lsp"] = function()
-					require('lspconfig').ruff_lsp.setup {
+				["ruff"] = function()
+					require('lspconfig').ruff.setup {
 						capabilities = capabilities,
 						on_attach = on_attach,
 						settings = {
-							ruff_lsp = {
+							ruff = {
 								enabled = true, -- Enable the plugin
 								formatEnabled = true,
 								extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
