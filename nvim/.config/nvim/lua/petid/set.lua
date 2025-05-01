@@ -1,4 +1,4 @@
-vim.opt.nu = true
+vim.opt.nu = true -- line numbers
 vim.opt.relativenumber = true
 
 vim.opt.tabstop = 4
@@ -10,11 +10,13 @@ vim.opt.smarttab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 
-if jit.os == "Linux" then
-	vim.opt.undodir = os.getenv("HOME") .. "/.local/state/nvim/undodir"
-elseif jit.os == "Windows" then
-	vim.opt.undodir = os.getenv("USERPROFILE") .. "\\nvim\\undodir"
+local undodir = vim.fn.stdpath("data") .. "/undodir"
+-- Create the directory if it doesn't exist
+if vim.fn.isdirectory(undodir) == 0 then
+	print("Creating undo directory: " .. undodir)
+	vim.fn.mkdir(undodir, "p")
 end
+vim.opt.undodir = undodir
 
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -28,7 +30,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>noh<CR>")
 
 vim.opt.termguicolors = true
 
-vim.opt.scrolloff = 16
+vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
@@ -39,4 +41,7 @@ vim.opt.autochdir = false
 vim.opt.inccommand = "split"
 
 vim.opt.listchars = "eol:¬,tab:▸ ,trail:~,extends:>,precedes:<"
-vim.opt.list = true
+vim.opt.list = false
+
+vim.opt.completeopt = { "menuone", "noselect", "noinsert" }
+vim.opt.shortmess:append("c")

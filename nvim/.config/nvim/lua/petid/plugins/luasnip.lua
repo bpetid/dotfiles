@@ -1,8 +1,9 @@
 return {
 	{
 		"L3MON4D3/LuaSnip",
+		version = "v2.*", -- Replace <CurrentMajor> by the latest major version of LuaSnip
 		-- install jsregexp (optional!).
-		build = vim.fn.has "win32" ~= 0 and "make install_jsregexp" or nil,
+		build = "make install_jsregexp",
 
 		dependencies = {
 			"rafamadriz/friendly-snippets",
@@ -31,12 +32,9 @@ return {
 			lsnip.filetype_extend("ruby", { "rdoc" })
 			lsnip.filetype_extend("sh", { "shelldoc" })
 
-			vim.keymap.set({ "i" }, "<c-s>e", function() lsnip.expand() end, { silent = true })
-			vim.keymap.set({ "i", "s" }, "<c-s>k", function()
-				if lsnip.choice_active() then
-					lsnip.change_choice(1)
-				end
-			end, { silent = true })
+			-- 	vim.keymap.set({ "i" }, "<C-K>", function() lsnip.expand() end, { silent = true })
+			-- 	vim.keymap.set({ "i", "s" }, "<C-L>", function() lsnip.jump(1) end, { silent = true })
+			-- 	vim.keymap.set({ "i", "s" }, "<C-J>", function() lsnip.jump(-1) end, { silent = true })
 		end,
 	},
 }

@@ -7,8 +7,8 @@ return {
 		local configs = require("nvim-treesitter.configs")
 
 		configs.setup({
-			ensure_installed = { "vim", "vimdoc", "ninja", "markdown", "markdown_inline", "make", "gitignore", "gitcommit"},
-			sync_install = true,
+			ensure_installed = { "vim", "vimdoc", "gitignore", "gitcommit"},
+			sync_install = false,
 			auto_install = true,
 
 			highlight = {
@@ -19,13 +19,13 @@ return {
 				enable = true
 			},
 			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<leader>k", -- set to `false` to disable one of the mappings
-					node_incremental = "<leader>l",
-					scope_incremental = "<leader>,",
-					node_decremental = "<leader>j",
-				},
+				enable = false,
+--				keymaps = {
+--					init_selection = "<leader>k", -- set to `false` to disable one of the mappings
+--					node_incremental = "<leader>l",
+--					scope_incremental = "<leader>,",
+--					node_decremental = "<leader>j",
+--				},
 			},
 		})
 
