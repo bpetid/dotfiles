@@ -1,0 +1,17 @@
+[Unit]
+Description=Add SSH keys to ssh-agent
+Documentation=https://wiki.archlinux.org/title/SSH_keys#Adding_keys_to_the_agent
+PartOf=ssh-agent.service
+After=ssh-agent.service
+
+[Service]
+Type=oneshot
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStartPre=/usr/bin/echo "Waiting 5 seconds for ssh-agent to start..."
+ExecStartPre=/usr/bin/sleep 5
+ExecStartPre=/usr/bin/echo "Attempting to run ssh-add..."
+ExecStart=/usr/bin/ssh-add /home/petid/.ssh/bpetid_github
+RemainAfterExit=true
+
+[Install]
+WantedBy=default.target
