@@ -1,2 +1,4 @@
 nvim/plugin/
 **/lazy-lock.json
+
+systemd/dot-config/systemd/user/default.target.wants/
