@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("petid.plugins", {
 	checker = {
 		enabled = true,
-		notify = true,
+		notify = false,
 
 	},
 	change_detection = {

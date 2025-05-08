@@ -15,15 +15,7 @@ return {
 	},
 
 	config = function()
-		local mason_lspconfig = require("mason-lspconfig")
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-		-- local capabilities = vim.tbl_deep_extend(
-		-- 	"force",
-		-- 	{},
-		-- 	vim.lsp.protocol.make_client_capabilities(),
-		-- 	require("cmp_nvim_lsp").default_capabilities()
-		-- )
 		local on_attach = function(client)
 			if client.server_capabilities.inlayHintProvider then
 				vim.lsp.inlay_hint.enable(true)
@@ -33,6 +25,7 @@ return {
 				client.server_capabilities.hoverProvider = false
 			end
 		end
+
 		require("fidget").setup({})
 		require("mason").setup()
 		require("mason-lspconfig").setup({
@@ -46,69 +39,55 @@ return {
 				"yamlls",
 				"typos_lsp"
 			},
-			automatic_installation = true,
+			automatic_enable = true
 		})
 
-		-- Per Language Setup
-		mason_lspconfig.setup_handlers({
-			function(server_name)
-				require("lspconfig")[server_name].setup {
-					capabilities = capabilities,
-					on_attach = on_attach
-				}
-			end,
-			["ruff"] = function()
-				require('lspconfig').ruff.setup {
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = {
-						ruff = {
-							enabled = true, -- Enable the plugin
-							formatEnabled = true,
-							extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
-							format = { "I" },
-							severities = { ["D212"] = "I" },
-							unsafeFixes = true,
-							-- Rules that are ignored when a pyproject.toml or ruff.toml is present:
-							lineLength = 160, -- Line length to pass to ruff checking and formatting
-							select = { "F" }, -- Rules to be enabled by ruff
-							ignore = {}, -- Rules to be ignored by ruff
-							preview = false, -- Whether to enable the preview style linting and formatting.
-							targetVersion = "py39", -- The minimum python version to target (applies for both linting and formatting).
-						},
-					}
-				}
-			end,
-			["lua_ls"] = function()
-				require("lspconfig").lua_ls.setup {
-					capabilities = capabilities,
-					on_attach = on_attach,
-					settings = {
-						Lua = {
-							runtime = { version = "LuaJIT" },
-							diagnostics = {
-								globals = { "vim", }
-							},
-							workspace = {
-								library = vim.api.nvim_get_runtime_file("", true),
-								checkThirdParty = false,
-							},
-						}
-					}
-				}
-			end,
-			["typos_lsp"] = function()
-				require("lspconfig").typos_lsp.setup {
-					capabilities = capabilities,
-					on_attach = on_attach,
-					init_options = {
-						--	config = '~/code/typos-lsp/crates/typos-lsp/tests/typos.toml',
-						diagnosticSeverity = "Hint"
+		vim.lsp.config('ruff', {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				ruff = {
+					enabled = true,
+					formatEnabled = true,
+					extendSelect = { "I", "C", "C90", "C901", "E4", "E7", "E9", "F", "PL", "E", "W", "UP", "B", "SIM", "I", "TCH", "RUF", "Q", },
+					format = { "I" },
+					severities = { ["D212"] = "I" },
+					unsafeFixes = true,
+					-- Rules that are ignored when a pyproject.toml or ruff.toml is present:
+					lineLength = 160,
+					select = { "F" },
+					ignore = {},
+					preview = false,
+					targetVersion = "py39",
+				},
+			}
+		})
+
+		vim.lsp.config('lua_ls', {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				Lua = {
+					runtime = { version = "LuaJIT" },
+					diagnostics = {
+						globals = {}
 					},
-					settings = {
-					}
+					workspace = {
+						library = vim.api.nvim_get_runtime_file("", true),
+						checkThirdParty = false,
+					},
 				}
-			end,
+			}
+		})
+
+		vim.lsp.config('typos_lsp', {
+			capabilities = capabilities,
+			on_attach = on_attach,
+			init_options = {
+				diagnosticSeverity = "Hint"
+			},
+			settings = {
+			}
 		})
 
 		-- VIRTUAL TEXT
@@ -124,7 +103,7 @@ return {
 				focusable = false,
 				style = "minimal",
 				border = "rounded",
-				source = "always",
+				source = true,
 				header = "",
 				prefix = "",
 			},
