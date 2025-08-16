@@ -1,0 +1,32 @@
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[user]
+	email = bpetid@pm.me
+	name = Bányai Péter
+	signingKey = /home/petid/.ssh/bpetid_github
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[gpg "ssh"]
+	allowedSignersFile = /home/petid/.ssh/allowed_signers
+[diff]
+    tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$REMOTE" "$LOCAL" 
+[merge]
+    tool = meld
+[mergetool "meld"]
+	# cmd = meld "$REMOTE" "$MERGED" "$LOCAL" --output "$MERGED"
+    cmd = meld "$REMOTE" "$BASE" "$LOCAL" --output "$MERGED"
+[url "https://invent.kde.org/"]
+	insteadOf = kde:
+[url "ssh://git@invent.kde.org/"]
+	pushInsteadOf = kde:
+[safe]
+	directory = /usr/share/kde-builder
