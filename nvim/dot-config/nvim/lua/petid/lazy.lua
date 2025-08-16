@@ -23,4 +23,4 @@ require("lazy").setup("petid.plugins", {
 })
 
 -- set colors here
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme rose-pine")
