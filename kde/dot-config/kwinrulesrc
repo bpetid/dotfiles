@@ -1,0 +1,13 @@
+[4b5c1d10-690b-4c8a-9662-879b79dcf0c4]
+Description=Window settings for org.wezfurlong.wezterm
+noborder=true
+noborderrule=2
+title=nvim .config/wezterm ~
+types=1
+wmclass=wezterm-gui org.wezfurlong.wezterm
+wmclasscomplete=true
+wmclassmatch=1
+
+[General]
+count=1
+rules=4b5c1d10-690b-4c8a-9662-879b79dcf0c4
