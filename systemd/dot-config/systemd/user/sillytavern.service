@@ -6,8 +6,13 @@ After=default.target
 Type=simple
 ExecStart=/home/petid/Repos/SillyTavern/start.sh
 Environment="SILLYTAVERN_SELENIUM_BROWSER=firefox"
-# WorkingDirectory=/home/petid/Repos/SillyTavern
-#
+
+WorkingDirectory=/home/petid/Repos/SillyTavern
+
+ExecStartPre=/bin/mkdir -p /home/petid/Repos/SillyTavern/.log
+StandardOutput=file:/home/petid/Repos/SillyTavern/.log/output.log
+StandardError=file:/home/petid/Repos/SillyTavern/.log/error.log
+
 Restart=on-failure
 RestartSec=5s
 
