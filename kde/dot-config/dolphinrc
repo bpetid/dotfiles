@@ -1,7 +1,11 @@
+[CompactMode]
+PreviewSize=176
+
 [General]
 BrowseThroughArchives=true
 ConfirmClosingMultipleTabs=false
 DoubleClickViewAction=show_hidden_files
+GlobalViewProps=false
 OpenExternallyCalledFolderInNewTab=true
 RememberOpenedTabs=false
 ShowFullPath=true
