@@ -1,15 +1,31 @@
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
-local config = wezterm.config_builder()
 local mux = wezterm.mux
+local config = wezterm.config_builder()
 
-config.enable_wayland = true
+local is_darwin = wezterm.target_triple:find("darwin") ~= nil
+local is_linux = wezterm.target_triple:find("linux") ~= nil
+local is_windows = not (is_darwin or is_linux)
+
+if is_linux then
+	config.enable_wayland = true
+	config.default_prog = { '/usr/bin/fish', '-l' }
+	config.window_decorations = "NONE"
+end
+
+if is_darwin then
+	config.send_composed_key_when_left_alt_is_pressed = false
+    config.send_composed_key_when_right_alt_is_pressed = false
+    config.window_decorations = "TITLE | RESIZE"
+end
+
+if is_windows then
+	config.window_decorations = "TITLE | RESIZE"
+end
+
 config.webgpu_power_preference = "LowPower"
 config.front_end = "WebGpu"
 config.log_unknown_escape_sequences = true
-
-
-config.default_prog = { '/usr/bin/fish', '-l' }
 
 
 config.color_scheme = 'Rosé Pine (base16)'
@@ -49,7 +65,16 @@ config.colors = {
 		}
 	}
 }
+
+config.scrollback_lines = 10000
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+-- workaround to be able to display fastfetch at start
 config.initial_cols = 160
 config.initial_rows = 48
+wezterm.on('gui-startup', function(cmd)
+  local tab, pane, window = mux.spawn_window(cmd or {})
+  window:gui_window():maximize()
+end)
 
 return config
